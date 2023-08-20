@@ -4,6 +4,8 @@ import Card from '../UI/Card/Card';
 import classes from './Login.module.css';
 import Button from '../UI/Button/Button';
 import AuthContext from '../../store/auth-context';
+import { useRef } from 'react';
+import Input from '../Input/input';
 
 const emailReducer = (state, action) => {
   if (action.type === 'USER_INPUT') {
@@ -54,6 +56,9 @@ const Login = (props) => {
   const { isValid: emailIsValid } = emailState;
   const { isValid: passwordIsValid } = passwordState;
 
+  const emailInputRef = useRef();
+  const passwordInputRef = useRef();
+
   useEffect(() => {
     const identifier = setTimeout(() => {
       console.log('Checking form validity!');
@@ -92,40 +97,20 @@ const Login = (props) => {
     event.preventDefault();
     if (formIsValid) {
       authCtx.onLogin(emailState.value, passwordState.value);
+    } else if (!emailIsValid){
+      //이메일 창에 focus
+      emailInputRef.current.focus();
+    } else{
+      //비밀번호 창에 focus
+      passwordInputRef.current.focus();
     }
   };
 
   return (
     <Card className={classes.login}>
       <form onSubmit={submitHandler}>
-        <div
-          className={`${classes.control} ${
-            emailState.isValid === false ? classes.invalid : ''
-          }`}
-        >
-          <label htmlFor="email">이메일</label>
-          <input
-            type="email"
-            id="email"
-            value={emailState.value}
-            onChange={emailChangeHandler}
-            onBlur={validateEmailHandler}
-          />
-        </div>
-        <div
-          className={`${classes.control} ${
-            passwordState.isValid === false ? classes.invalid : ''
-          }`}
-        >
-          <label htmlFor="password">비밀번호</label>
-          <input
-            type="password"
-            id="password"
-            value={passwordState.value}
-            onChange={passwordChangeHandler}
-            onBlur={validatePasswordHandler}
-          />
-        </div>
+      <Input isValid={emailState.isValid} label="이메일" type="email" value={emailState.value} onChange={emailChangeHandler} onBlur={validateEmailHandler} ref={emailInputRef}/>
+      <Input isValid={passwordState.isValid} label="비밀번호" type="password" value={passwordState.value} onChange={passwordChangeHandler} onBlur={validatePasswordHandler} ref={passwordInputRef}/>
         <div className={classes.actions}>
           <Button type="submit" className={classes.btn}>
             로그인
