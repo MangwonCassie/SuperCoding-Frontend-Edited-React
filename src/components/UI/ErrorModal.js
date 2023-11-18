@@ -28,16 +28,16 @@ const ModalOverlay = (props) => {
 const ErrorModal = (props) => {
   return (
     <div>
-    {ReactDOM.createPortal(
-      <Backdrop onConfirm={props.onConfirm}/>, document.getElementById('backdrop-root')
+      {ReactDOM.createPortal(
+        <Backdrop onConfirm={props.onConfirm} />, document.getElementById('backdrop-root')
 
-    )}
-    {
-      ReactDOM.createPortal(
-        <ModalOverlay title={props.title} message={props.message} onConfirm={props.onConfirm}/>, document.getElementById('overlay-root')
-      )
-    }
-      
+      )}
+      {
+        ReactDOM.createPortal(
+          <ModalOverlay title={props.title} message={props.message} onConfirm={props.onConfirm} />, document.getElementById('overlay-root')
+        )
+      }
+
     </div>
   );
 };

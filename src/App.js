@@ -4,6 +4,11 @@ import AddUser from './components/Users/AddUser';
 import UsersList from './components/Users/UsersList';
 
 function App() {
+  const [language, setLanguage] = useState('kor');
+
+  const toggleLanguage = () => {
+    setLanguage((prevLanguage) => (prevLanguage === 'kor' ? 'eng' : 'kor'));
+  };
   const [usersList, setUsersList] = useState([]);
 
   const addUserHandler = (uName, uAge) => {
@@ -24,3 +29,4 @@ function App() {
 }
 
 export default App;
+
